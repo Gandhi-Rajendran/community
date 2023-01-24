@@ -8,8 +8,10 @@ const userSlice = createSlice({
         page:1,
         perPage:10,
     },
-	reducers:{
-
+	reducers:{        
+        onPageHandler:(state,action)=>{
+            state.page = action.payload
+        }
 
     }
 }
