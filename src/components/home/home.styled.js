@@ -13,11 +13,29 @@ export const H1 = styled.h1`
   color: white;
 `;
 
-export const Main = styled.main`
-  height: 65vh;
+export const TableContainer = styled.table`
+  border-collapse: collapse;
+  tr,
+  th,
+  td {
+    border: 0.15rem solid black;
+  }
+  thead {
+    th {
+      padding: 1rem;
+    }
+  }
+  tbody {
+    // background-color: darkblue;
+    // height: 2rem;
+  }
+  // td {
+  //   border: 1rem solid red;
+  // }
   overflow-y: scroll;
 `;
-export const PageDiv = styled.div`
+export const Footer = styled.footer`
+  // text-align: center;
   display: flex;
   justify-content: center;
   margin: 1rem;

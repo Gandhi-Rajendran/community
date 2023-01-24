@@ -3,8 +3,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { UseFetch, UseFetchByPage } from "../../utils/query";
 import { userSliceActions } from "../../utils/store";
-import User from "../user";
-import { H1, HomeContainer, Main, PageDiv } from "./home.styled";
+import {
+  Footer,
+  H1,
+  HomeContainer,
+  TableContainer,
+  Thead,
+} from "./home.styled";
 
 const Home = () => {
   const { page, perPage, totalPageCount } = useSelector((state) => state.user);
@@ -43,25 +48,46 @@ const Home = () => {
 
   return (
     <HomeContainer>
-      <H1>Community</H1>
+      <H1>Users Community</H1>
       <input
         type="text"
-        placeholder="Search User..."
+        placeholder="Name Search..."
         value={searchUser}
         onChange={(e) => setSearchUser(e.target.value)}
       />
-      <Main>
-        {isLoading ? <h3>Loading...</h3> : null}
-        {isError ? <h3>{isError}</h3> : null}
-        {filteredUsers.length === 0 ? (
-          <h3>No User found.</h3>
-        ) : (
-          filteredUsers.map((user) => <User key={user.id} user={user} />)
-        )}
-      </Main>
-      <PageDiv>
+      {isLoading ? <h3>Loading...</h3> : null}
+      {isError ? <h3>{isError}</h3> : null}
+      <TableContainer>
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Name</th>
+            <th>Tag</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredUsers.length === 0 ? (
+            <tr>
+              <td colSpan={4}>No User found.</td>
+            </tr>
+          ) : (
+            filteredUsers.map((user) => (
+              <tr key={user.id}>
+                <td>{user.id}</td>
+                <td>{user.name}</td>
+                <td>{user.tagline}</td>
+                <td>{user.description}</td>
+              </tr>
+            ))
+          )}
+        </tbody>
+        {/* <tfoot> */}
+        {/* </tfoot> */}
+      </TableContainer>
+      <Footer>
         <Pagination count={totalPageCount} page={page} onChange={pageHandler} />
-      </PageDiv>
+      </Footer>
     </HomeContainer>
   );
 };
