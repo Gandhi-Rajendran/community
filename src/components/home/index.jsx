@@ -8,6 +8,7 @@ import {
   H1,
   HomeContainer,
   TableContainer,
+  Td,
   Thead,
 } from "./home.styled";
 
@@ -69,7 +70,7 @@ const Home = () => {
         <tbody>
           {filteredUsers.length === 0 ? (
             <tr>
-              <td colSpan={4}>No User found.</td>
+              <Td colSpan={4}>No User found.</Td>
             </tr>
           ) : (
             filteredUsers.map((user) => (
