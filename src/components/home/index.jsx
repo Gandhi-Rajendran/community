@@ -1,11 +1,14 @@
 import React from 'react'
-import { UseFetch } from '../../../utils/query'
+import { useSelector } from 'react-redux'
+// import { UseFetch } from '../../../utils/query'
 
 const Home = () => {
+  const page = useSelector(state=>state.user)
+
+  console.log("user",page)
 
 
-
-  const { datas, isLoading, isError } = UseFetch("")
+  // const { datas, isLoading, isError } = UseFetch("")
   return (
     <div>
       <h1>Community</h1>
