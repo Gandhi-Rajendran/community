@@ -4,31 +4,38 @@ import { useDispatch, useSelector } from "react-redux";
 import { UseFetch, UseFetchByPage } from "../../utils/query";
 import { userSliceActions } from "../../utils/store";
 import User from "../user";
-import { Div, H1, PageDiv } from "./home.styled";
+import { H1, PageDiv } from "./home.styled";
 
 const Home = () => {
-  const { page, perPage, totalPages } = useSelector((state) => state.user);
+  const { page, perPage, totalPageCount } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const [searchUser, setSearchUser] = useState("");
-  console.log("user", page, perPage, totalPages);
 
   const { datas: totalUsers } = UseFetch("https://api.punkapi.com/v2/beers");
 
   useEffect(() => {
     if (totalUsers !== undefined) {
-      console.log(totalUsers.length);
-      dispatch(userSliceActions.onPageCountHandler(totalUsers?.length));
+      dispatch(
+        userSliceActions.totalPageCountHandler(
+          Math.ceil(totalUsers?.length / 10)
+        )
+      );
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [totalUsers]);
 
   const {
     datas: users,
     isLoading,
     isError,
   } = UseFetchByPage(
-    `https://api.punkapi.com/v2/beers?page=1&per_page=${perPage}`
+    `https://api.punkapi.com/v2/beers?page=${page}&per_page=${perPage}`
   );
+
+  const pageHandler = (event, value) => {
+    dispatch(userSliceActions.pageCountHandler(value));
+  };
 
   return (
     <div>
@@ -47,7 +54,7 @@ const Home = () => {
           <User key={user.id} user={user} />
         ))}
       <PageDiv>
-        <Pagination count={10} />
+        <Pagination count={totalPageCount} page={page} onChange={pageHandler} />
       </PageDiv>
     </div>
   );

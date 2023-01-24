@@ -7,4 +7,5 @@ export const H1 = styled.h1`
 export const PageDiv = styled.div`
   display: flex;
   justify-content: center;
+  margin: 1rem;
 `;
