@@ -27,14 +27,6 @@ export const TableContainer = styled.table`
       padding: 1rem;
     }
   }
-  tbody {
-    // background-color: darkblue;
-    // height: 2rem;
-  }
-  // td {
-  //   border: 1rem solid red;
-  // }
-  overflow-y: scroll;
 `;
 
 export const Td = styled.td`
