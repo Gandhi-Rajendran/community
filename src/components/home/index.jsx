@@ -37,6 +37,10 @@ const Home = () => {
     dispatch(userSliceActions.pageCountHandler(value));
   };
 
+  const filteredUsers = users.filter((user) =>
+    user.name.toLowerCase().includes(searchUser)
+  );
+
   return (
     <HomeContainer>
       <H1>Community</H1>
@@ -49,11 +53,11 @@ const Home = () => {
       <Main>
         {isLoading ? <h3>Loading...</h3> : null}
         {isError ? <h3>{isError}</h3> : null}
-        {users
-          ?.filter((user) => user.name.toLowerCase().includes(searchUser))
-          .map((user) => (
-            <User key={user.id} user={user} />
-          ))}
+        {filteredUsers.length === 0 ? (
+          <h3>No User found.</h3>
+        ) : (
+          filteredUsers.map((user) => <User key={user.id} user={user} />)
+        )}
       </Main>
       <PageDiv>
         <Pagination count={totalPageCount} page={page} onChange={pageHandler} />
