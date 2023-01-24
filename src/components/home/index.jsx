@@ -61,10 +61,10 @@ const Home = () => {
       <TableContainer>
         <thead>
           <tr>
-            <th>S.No</th>
-            <th>Name</th>
-            <th>Tag</th>
-            <th>Description</th>
+            <th style={{ width: "10%" }}>S.No</th>
+            <th style={{ width: "20%" }}>Name</th>
+            <th style={{ width: "20%" }}>Tag</th>
+            <th style={{ width: "50%" }}>Description</th>
           </tr>
         </thead>
         <tbody>
