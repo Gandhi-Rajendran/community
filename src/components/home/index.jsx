@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { UseFetch, UseFetchByPage } from "../../utils/query";
 import { userSliceActions } from "../../utils/store";
 import User from "../user";
-import { H1, PageDiv } from "./home.styled";
+import { H1, HomeContainer, Main, PageDiv } from "./home.styled";
 
 const Home = () => {
   const { page, perPage, totalPageCount } = useSelector((state) => state.user);
@@ -38,7 +38,7 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <HomeContainer>
       <H1>Community</H1>
       <input
         type="text"
@@ -46,17 +46,19 @@ const Home = () => {
         value={searchUser}
         onChange={(e) => setSearchUser(e.target.value)}
       />
-      {isLoading ? <h3>Loading...</h3> : null}
-      {isError ? <h3>{isError}</h3> : null}
-      {users
-        ?.filter((user) => user.name.toLowerCase().includes(searchUser))
-        .map((user) => (
-          <User key={user.id} user={user} />
-        ))}
+      <Main>
+        {isLoading ? <h3>Loading...</h3> : null}
+        {isError ? <h3>{isError}</h3> : null}
+        {users
+          ?.filter((user) => user.name.toLowerCase().includes(searchUser))
+          .map((user) => (
+            <User key={user.id} user={user} />
+          ))}
+      </Main>
       <PageDiv>
         <Pagination count={totalPageCount} page={page} onChange={pageHandler} />
       </PageDiv>
-    </div>
+    </HomeContainer>
   );
 };
 

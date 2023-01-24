@@ -4,4 +4,7 @@ export const Div = styled.div`
   margin: 1rem;
   background-color: lightgrey;
   border-radius: 1rem;
+  h3 {
+    color: blue;
+  }
 `;
