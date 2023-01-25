@@ -37,7 +37,7 @@ const Home = () => {
   };
 
   const filteredUsers = pages[page]?.filter((user) =>
-    user.name.toLowerCase().includes(searchUser)
+    user.name.toLowerCase().includes(searchUser.toLowerCase())
   );
 
   return (
