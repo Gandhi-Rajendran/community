@@ -9,10 +9,7 @@ const Home = () => {
   const { page, perPage, totalPageCount, pages } = useSelector(
     (state) => state.user
   );
-
   const dispatch = useDispatch();
-
-  const [searchUser, setSearchUser] = useState("");
 
   const { datas: totalUsers } = UseFetch("https://api.punkapi.com/v2/beers");
 
@@ -32,13 +29,31 @@ const Home = () => {
     page
   );
 
+  const [userList, setUserList] = useState([]);
+  const [searchUser, setSearchUser] = useState("");
+
+  useEffect(() => {
+    setUserList(pages[page]);
+  }, [page, pages]);
+
   const pageHandler = (event, value) => {
     dispatch(userSliceActions.pageCountHandler(value));
   };
 
-  const filteredUsers = pages[page]?.filter((user) =>
-    user.name.toLowerCase().includes(searchUser.toLowerCase())
-  );
+  const searchHandler = (e) => {
+    setSearchUser(e.target.value);
+    if (e.target.value) {
+      const filteredUsers = Object.values(pages)
+        .flat()
+        ?.filter((user) =>
+          user.name.toLowerCase().includes(e.target.value.toLowerCase())
+        )
+        .slice(0, 10);
+      console.log(filteredUsers);
+      return setUserList(filteredUsers);
+    }
+    return setUserList(pages[page]);
+  };
 
   return (
     <HomeContainer>
@@ -47,7 +62,7 @@ const Home = () => {
         type="text"
         placeholder="Name Search..."
         value={searchUser}
-        onChange={(e) => setSearchUser(e.target.value)}
+        onChange={(e) => searchHandler(e)}
       />
       {isLoading ? <h3>Loading...</h3> : null}
       {isError ? <h3>{isError}</h3> : null}
@@ -61,12 +76,12 @@ const Home = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredUsers?.length === 0 ? (
+          {userList?.length === 0 ? (
             <tr>
               <Td colSpan={4}>No User found.</Td>
             </tr>
           ) : (
-            filteredUsers?.map((user) => (
+            userList?.map((user) => (
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.name}</td>
