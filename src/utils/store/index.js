@@ -6,6 +6,7 @@ const userSlice = createSlice({
     page: 1,
     perPage: 10,
     totalPageCount: 0,
+    pages: {},
   },
   reducers: {
     pageCountHandler: (state, action) => {
@@ -13,6 +14,10 @@ const userSlice = createSlice({
     },
     totalPageCountHandler: (state, action) => {
       state.totalPageCount = action.payload;
+    },
+    setPageData: (state, action) => {
+      const { page, data } = action.payload;
+      state.pages[page] = data;
     },
   },
 });

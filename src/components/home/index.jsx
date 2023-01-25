@@ -3,17 +3,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { UseFetch, UseFetchByPage } from "../../utils/query";
 import { userSliceActions } from "../../utils/store";
-import {
-  Footer,
-  H1,
-  HomeContainer,
-  TableContainer,
-  Td,
-  Thead,
-} from "./home.styled";
+import { Footer, H1, HomeContainer, TableContainer, Td } from "./home.styled";
 
 const Home = () => {
-  const { page, perPage, totalPageCount } = useSelector((state) => state.user);
+  const { page, perPage, totalPageCount, pages } = useSelector(
+    (state) => state.user
+  );
+
   const dispatch = useDispatch();
 
   const [searchUser, setSearchUser] = useState("");
@@ -31,19 +27,16 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [totalUsers]);
 
-  const {
-    datas: users,
-    isLoading,
-    isError,
-  } = UseFetchByPage(
-    `https://api.punkapi.com/v2/beers?page=${page}&per_page=${perPage}`
+  const { isLoading, isError } = UseFetchByPage(
+    `https://api.punkapi.com/v2/beers?page=${page}&per_page=${perPage}`,
+    page
   );
 
   const pageHandler = (event, value) => {
     dispatch(userSliceActions.pageCountHandler(value));
   };
 
-  const filteredUsers = users.filter((user) =>
+  const filteredUsers = pages[page]?.filter((user) =>
     user.name.toLowerCase().includes(searchUser)
   );
 
@@ -68,12 +61,12 @@ const Home = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredUsers.length === 0 ? (
+          {filteredUsers?.length === 0 ? (
             <tr>
               <Td colSpan={4}>No User found.</Td>
             </tr>
           ) : (
-            filteredUsers.map((user) => (
+            filteredUsers?.map((user) => (
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.name}</td>
