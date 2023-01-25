@@ -49,7 +49,6 @@ const Home = () => {
           user.name.toLowerCase().includes(e.target.value.toLowerCase())
         )
         .slice(0, 10);
-      console.log(filteredUsers);
       return setUserList(filteredUsers);
     }
     return setUserList(pages[page]);
